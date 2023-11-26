@@ -1,26 +1,17 @@
 /* eslint-disable react/prop-types */
-import * as deckFunction from "../deck.js";
-import { useState } from "react";
 
-export function Card({ id }) {
-  const [image, setImage] = useState("");
-
-  async function getCardImage(id) {
-    try {
-      const card = await deckFunction.drawCard(id);
-      setImage(card.cards[0].images.svg);
-    } catch (err) {
-      console.log("Unable to retrieve image", err);
-    }
-  }
-
+export function Card({ id, image, getImage, incrementScore, checkHighScore }) {
   return (
     <div>
       <img
         src={image}
         alt=""
-        onClick={() => getCardImage(id)}
-        style={{ height: "70rem", width: "40rem" }}
+        onClick={() => {
+          getImage(id);
+          incrementScore();
+          checkHighScore()
+        }}
+        style={{ height: "28rem", width: "17rem" }}
       />
     </div>
   );
