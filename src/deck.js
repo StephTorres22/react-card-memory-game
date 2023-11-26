@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
+/* import fetch from "node-fetch"; */
 
-async function getDeckID() {
+export async function getDeckID() {
   try {
     const res = await fetch(
       `https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`
@@ -14,44 +14,44 @@ async function getDeckID() {
   }
 }
 
-async function drawCard(id) {
+export async function drawCard(id) {
   try {
     const res = await fetch(
       `https://www.deckofcardsapi.com/api/deck/${id}/draw/?count=1`
     );
-    const card = res.json();
+    const card = await res.json();
     return card;
   } catch {
     console.log("Unable to retrieve card");
   }
 }
 
-console.log(await drawCard("alnpw9fuz3ee"));
+//console.log(await drawCard("alnpw9fuz3ee"));
 
-async function returnCardsToDeck(id) {
+export async function returnCardsToDeck(id) {
   try {
     const res = await fetch(
       `https://www.deckofcardsapi.com/api/deck/${id}/return/`
     );
-    const deck = res.json();
-    return deck
+    const deck = await res.json();
+    return deck;
   } catch {
     console.log("Unable to return cards to deck");
   }
 }
 
-console.log(await returnCardsToDeck("alnpw9fuz3ee"));
+//console.log(await returnCardsToDeck("alnpw9fuz3ee"));
 
-async function shuffleDeck(id) {
+export async function shuffleDeck(id) {
   try {
     const res = await fetch(
       `https://www.deckofcardsapi.com/api/deck/${id}/shuffle/`
     );
     const deck = res.json();
-    return deck
+    return deck;
   } catch {
     console.log("Unable to shuffle cards");
   }
 }
 
-console.log(await shuffleDeck("alnpw9fuz3ee"));
+//console.log(await shuffleDeck("alnpw9fuz3ee"));
