@@ -1,14 +1,26 @@
 /* eslint-disable react/prop-types */
-function PlayButton({ id, getImage, setGameOn }) {
+function PlayButton({
+  id,
+  getImage,
+  setGameOn,
+  setGameOver,
+  children,
+  resetMap,
+  resetScore,
+}) {
   return (
     <button
       type="button"
       onClick={() => {
-        getImage(id);
+        resetMap();
+
         setGameOn();
+        setGameOver();
+        getImage(id);
+        resetScore();
       }}
     >
-      Play
+      {children}
     </button>
   );
 }

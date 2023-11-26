@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 
+import { shuffleDeck } from "../deck.js";
+
 export function Card({ id, image, getImage, incrementScore, checkHighScore }) {
   return (
     <div>
@@ -9,7 +11,8 @@ export function Card({ id, image, getImage, incrementScore, checkHighScore }) {
         onClick={() => {
           getImage(id);
           incrementScore();
-          checkHighScore()
+          checkHighScore();
+          shuffleDeck(id);
         }}
         style={{ height: "28rem", width: "17rem" }}
       />

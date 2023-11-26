@@ -4,12 +4,29 @@ import * as deckFunction from "./deck.js";
 import { Card } from "./Components/Card.jsx";
 import Score from "./Components/Score.jsx";
 import PlayButton from "./Components/PlayButton.jsx";
+import SkipButton from "./Components/SkipButton.jsx";
 
 function App() {
   const [deckId, setDeckId] = useState("");
   const [gameOn, setGameOn] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(10);
+  const [gameOver, setGameOver] = useState(false);
+
+  const [occurences, setOccurences] = useState(new Map());
+
+  function checkMap(key) {
+    if (occurences.has(key)) {
+      setOccurences((occurences) => new Map(occurences.set(key, 2)));
+      console.log(key);
+      setGameOver((gameOn) => !gameOn);
+      return true;
+    } else {
+      setOccurences((occurences) => new Map(occurences.set(key, 1)));
+
+      console.log(gameOver);
+    }
+  }
 
   useEffect(() => {
     async function getDeckId() {
@@ -26,6 +43,7 @@ function App() {
     try {
       const card = await deckFunction.drawCard(id);
       setImage(card.cards[0].image);
+      checkMap(card.cards[0].code);
     } catch (err) {
       console.log("Unable to retrieve image", err);
     }
@@ -45,21 +63,46 @@ function App() {
     <>
       <div>
         <Score topScore={highScore} currentScore={currentScore}></Score>
-        {gameOn ? (
-          <Card
-            id={deckId}
-            image={image}
-            getImage={getCardImage}
-            incrementScore={scoreIncrease}
-            checkHighScore={compareScores}
-          ></Card>
-        ) : (
+        {gameOver ? (
+          <div>
+            <h1>Game Over</h1>
+
+            <PlayButton
+              id={deckId}
+              getImage={getCardImage}
+              setGameOn={() => setGameOn(true)}
+              setGameOver={() => setGameOver(false)}
+              resetMap={() => setOccurences(new Map())}
+              resetScore={() => setCurrentScore(0)}
+            >
+              Play again?
+            </PlayButton>
+          </div>
+        ) : null}
+        {gameOn && !gameOver ? (
+          <div>
+            <Card
+              id={deckId}
+              image={image}
+              getImage={getCardImage}
+              incrementScore={scoreIncrease}
+              checkHighScore={compareScores}
+            ></Card>
+            <SkipButton id={deckId} getImage={getCardImage}></SkipButton>
+          </div>
+        ) : null}
+        {!gameOn && !gameOver ? (
           <PlayButton
             id={deckId}
             getImage={getCardImage}
             setGameOn={() => setGameOn(!gameOn)}
-          ></PlayButton>
-        )}
+            setGameOver={() => setGameOver(false)}
+            resetMap={() => setOccurences(new Map())}
+            resetScore={() => setCurrentScore(0)}
+          >
+            Play
+          </PlayButton>
+        ) : null}
       </div>
     </>
   );

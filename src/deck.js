@@ -3,7 +3,7 @@
 export async function getDeckID() {
   try {
     const res = await fetch(
-      `https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`
+      `https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6`
     );
 
     const deck = await res.json();
@@ -30,11 +30,7 @@ export async function drawCard(id) {
 
 export async function returnCardsToDeck(id) {
   try {
-    const res = await fetch(
-      `https://www.deckofcardsapi.com/api/deck/${id}/return/`
-    );
-    const deck = await res.json();
-    return deck;
+    await fetch(`https://www.deckofcardsapi.com/api/deck/${id}/return/`);
   } catch {
     console.log("Unable to return cards to deck");
   }
@@ -44,11 +40,8 @@ export async function returnCardsToDeck(id) {
 
 export async function shuffleDeck(id) {
   try {
-    const res = await fetch(
-      `https://www.deckofcardsapi.com/api/deck/${id}/shuffle/`
-    );
-    const deck = res.json();
-    return deck;
+    await returnCardsToDeck(id);
+    await fetch(`https://www.deckofcardsapi.com/api/deck/${id}/shuffle/`);
   } catch {
     console.log("Unable to shuffle cards");
   }
