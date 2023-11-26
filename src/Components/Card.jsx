@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { returnCardsToDeck } from "../deck.js";
+import { shuffleDeck } from "../deck.js";
 
 export function Card({
   id,
@@ -20,7 +20,7 @@ export function Card({
           getImage(id);
           incrementScore();
           checkHighScore();
-          returnCardsToDeck(id);
+          shuffleDeck(id);
           checkMap(code);
         }}
         style={{ height: "28rem", width: "17rem" }}
