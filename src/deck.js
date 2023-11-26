@@ -3,7 +3,7 @@
 export async function getDeckID() {
   try {
     const res = await fetch(
-      `https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6`
+      `https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=8`
     );
 
     const deck = await res.json();

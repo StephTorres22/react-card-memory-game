@@ -62,6 +62,7 @@ function App() {
     <>
       <div>
         <h1>Memory card game</h1>
+        <h3>Don&apos;t click on the same card twice!</h3>
         <Score topScore={highScore} currentScore={currentScore}></Score>
         {gameOver ? (
           <div>

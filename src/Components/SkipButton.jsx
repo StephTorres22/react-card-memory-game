@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 
-import { shuffleDeck } from "../deck";
+import { returnCardsToDeck } from "../deck";
 function SkipButton({ id, getImage }) {
   return (
     <button
       type="button"
       onClick={() => {
         getImage(id);
-        shuffleDeck(id);
+        returnCardsToDeck(id);
       }}
     >
       Skip
