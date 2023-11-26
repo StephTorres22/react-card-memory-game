@@ -12,19 +12,17 @@ function App() {
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(10);
   const [gameOver, setGameOver] = useState(false);
+  const [code, setCode] = useState("");
 
   const [occurences, setOccurences] = useState(new Map());
 
   function checkMap(key) {
     if (occurences.has(key)) {
       setOccurences((occurences) => new Map(occurences.set(key, 2)));
-      console.log(key);
       setGameOver((gameOn) => !gameOn);
       return true;
     } else {
       setOccurences((occurences) => new Map(occurences.set(key, 1)));
-
-      console.log(gameOver);
     }
   }
 
@@ -43,7 +41,8 @@ function App() {
     try {
       const card = await deckFunction.drawCard(id);
       setImage(card.cards[0].image);
-      checkMap(card.cards[0].code);
+      setCode(card.cards[0].code);
+      console.log(code);
     } catch (err) {
       console.log("Unable to retrieve image", err);
     }
@@ -62,6 +61,7 @@ function App() {
   return (
     <>
       <div>
+        <h1>Memory card game</h1>
         <Score topScore={highScore} currentScore={currentScore}></Score>
         {gameOver ? (
           <div>
@@ -87,6 +87,8 @@ function App() {
               getImage={getCardImage}
               incrementScore={scoreIncrease}
               checkHighScore={compareScores}
+              checkMap={checkMap}
+              code={code}
             ></Card>
             <SkipButton id={deckId} getImage={getCardImage}></SkipButton>
           </div>
